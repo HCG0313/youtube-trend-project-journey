@@ -1,0 +1,66 @@
+{
+  "model_name": "CategoryConditionedBiGRU_RankingAwareRiseModel_CORE10",
+  "active_categories": [
+    "게임",
+    "경제",
+    "교육",
+    "뉴스시사",
+    "먹방",
+    "반려동물",
+    "뷰티",
+    "브이로그",
+    "요리",
+    "운동"
+  ],
+  "feature_mode": "calendar_search",
+  "quantile": 0.6,
+  "threshold": 0.40000000000000013,
+  "blend_weights": {
+    "ranking_score": 0.0,
+    "rise_probability": 0.4,
+    "rank_up_probability": 0.6
+  },
+  "train_windows": 567,
+  "val_windows": 29,
+  "test_windows": 30,
+  "val_metrics": {
+    "accuracy": 0.7586206896551724,
+    "balanced_accuracy": 0.7944444444444444,
+    "precision": 0.5714285714285714,
+    "recall": 0.8888888888888888,
+    "f1": 0.6956521739130435,
+    "roc_auc": 0.838888888888889
+  },
+  "val_ranking_metrics": {
+    "precision_at_5": 0.4,
+    "recall_at_5": 0.95,
+    "hit_rate_at_5": 1.0,
+    "ndcg_at_5": 0.9419102944063836
+  },
+  "test_metrics": {
+    "accuracy": 0.7666666666666667,
+    "balanced_accuracy": 0.7981366459627328,
+    "precision": 0.9444444444444444,
+    "recall": 0.7391304347826086,
+    "f1": 0.8292682926829269,
+    "roc_auc": 0.84472049689441
+  },
+  "test_ranking_metrics": {
+    "precision_at_5": 0.9,
+    "recall_at_5": 0.8011904761904762,
+    "hit_rate_at_5": 1.0,
+    "ndcg_at_5": 0.8811521838844926
+  },
+  "rank_aux_test_metrics": {
+    "accuracy": 0.8333333333333334,
+    "balanced_accuracy": 0.6925465838509317,
+    "precision": 0.75,
+    "recall": 0.42857142857142855,
+    "f1": 0.5454545454545454,
+    "roc_auc": 0.813664596273292
+  },
+  "search_feature_status": {
+    "mode": "cache",
+    "message": "loaded_cached_normalized_google_trends_features"
+  }
+}
