@@ -79,25 +79,29 @@
 - 실행 순서가 궁금하다면: [RUN_PROJECT.md](./RUN_PROJECT.md)
 - 공개 저장소 기준 재현 범위가 궁금하다면: [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
 
-## 저장소 구조
+## 공개 저장소 구조
 
 ```text
 .
 ├─ youtube_trend_project_pipeline.executed.ipynb   # 메인 프로젝트 노트북
-├─ 1.ipynb                                         # EDA 보조 노트북
 ├─ train_active_category_rank_bigru.py             # 최종 BiGRU 학습 코드
 ├─ run_core10_top_predictions.py                   # 최종 예측 재생성 코드
+├─ make_paper_visualization_suite.py               # 대표 시각화 생성 코드
+├─ plot_core10_prediction_results.py               # 예측 결과 시각화 코드
+├─ plot_core10_prediction_story.py                 # 예측 스토리 시각화 코드
+├─ README.md                                       # 저장소 첫 화면
+├─ PROJECT_JOURNEY.md                              # 프로젝트 일대기
+├─ TROUBLESHOOTING.md                              # 문제와 해결 과정
+├─ FINAL_MODEL.md                                  # 최종 모델 설명
+├─ RESULTS.md                                      # 최종 성능과 예측 결과
 ├─ RUN_PROJECT.md                                  # 실행 안내
 ├─ REPRODUCIBILITY.md                              # 재현 범위와 한계
 ├─ requirements.txt                                # 공개용 기본 실행 패키지
 ├─ docs/assets/                                    # 문서용 대표 이미지
-├─ project_ready_data/                             # 로컬 산출물 폴더(공개 저장소에는 없을 수 있음)
-│  ├─ external_features/
-│  ├─ model_outputs/
-│  ├─ notebook_figures/
-│  └─ ppt_figures/
-└─ 프로젝트-공유패키지/                              # 팀 공유용 정리 패키지
+└─ project_ready_data/model_outputs/               # 공개 가능한 최종 결과 파일 일부
 ```
+
+실제 로컬 작업 폴더에는 이보다 더 많은 보조 스크립트, 실험 파일, 산출물이 있었지만, 공개 저장소에는 **프로젝트를 이해하는 데 필요한 핵심 파일만 선별해서 올렸다.**
 
 ## 빠르게 재현하는 방법
 
@@ -133,9 +137,9 @@ python make_paper_visualization_suite.py
 
 ### 재현 전에 알아둘 점
 
-- 공개 저장소에는 대용량 산출물이 빠져 있을 수 있다.
-- `project_ready_data/`는 로컬 산출물 폴더라 공개 저장소에 항상 포함되지 않는다.
-- 전체 산출물이 필요하면 `프로젝트-공유패키지`를 함께 보는 편이 안전하다.
+- 공개 저장소에는 대용량 산출물과 중간 결과가 대부분 빠져 있다.
+- 현재 저장소에는 `project_ready_data/model_outputs/` 아래의 **최종 결과 파일 일부만** 포함되어 있다.
+- 로컬 작업 폴더에는 더 많은 중간 산출물이 있었지만, 공개 저장소에는 올리지 않았다.
 - 실행 순서와 파일 의존성은 [RUN_PROJECT.md](./RUN_PROJECT.md)에 조금 더 자세히 적어두었다.
 - 공개 저장소에서 어디까지 재현 가능한지는 [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)를 보면 된다.
 
