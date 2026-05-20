@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+
+# Large generated outputs
+project_ready_data/
+automation_logs/
+analysis_outputs/
+latest_project_package/
+ready_to_use/
+data_stage_01_02/
+outputs/
+model_runs/
+
+# Backup and recovery copies
+홍찬기.codex.복구/
+organized_data/backups/
+youtube_category_output/quota_empty_backup_*/
+
+# Media and unpacked artifacts
+thumbnails/
+intro_docx_unpacked/
+
+# Local secrets
+youtube_api_keys.local.txt
+auto_collector_runtime_log.txt
+데이터 추출 코드.ipynb
+연습.ipynb
+
+# Notebook checkpoints
+.ipynb_checkpoints/
