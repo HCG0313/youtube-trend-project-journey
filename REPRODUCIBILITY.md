@@ -1,4 +1,4 @@
-# REPRODUCIBILITY
+# 재현 범위
 
 이 문서는 저장소를 받은 사람이 **어디까지 재현할 수 있는지**, 그리고 **어디부터는 원본 산출물이나 공유 패키지가 필요한지**를 조금 더 엄밀하게 설명한다.
 
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 참고:
 
 - `requirements.txt`가 공개용 기준 파일이다.
-- `requirements-youtube.txt`는 과거 로컬 실행 흐름을 유지하기 위한 legacy compatibility file이다.
+- 공개 저장소 설명은 이 파일을 기준으로 맞춰 두었다.
 
 ## 4. 어떤 파일이 있어야 하는가
 
