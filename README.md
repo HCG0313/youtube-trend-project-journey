@@ -1,116 +1,180 @@
-# 유튜브 트렌드 분야 예측 프로젝트
+# 유튜브 숏폼 미래 관심도 예측 모델
 
-![status](https://img.shields.io/badge/status-complete-2F5D62)
-![model](https://img.shields.io/badge/model-BiGRU-355E63)
-![task](https://img.shields.io/badge/task-Top--5%20forecasting-C2A88D)
-![scope](https://img.shields.io/badge/scope-core10%20categories-7DA39D)
+![status](https://img.shields.io/badge/status-final%20presentation-2F5D62)
+![modeling](https://img.shields.io/badge/approach-category%20trend%20%2B%20video%20signal-355E63)
+![scope](https://img.shields.io/badge/domain-youtube%20short--form-C2A88D)
+![type](https://img.shields.io/badge/type-deep%20learning%20project-7DA39D)
 
-과거 카테고리 추세, 최근 12주 시계열 반응, Google Trends 검색량, 캘린더 변수를 함께 사용해 **유튜브 핵심 10개 분야의 향후 4주 상승 가능성**을 예측한 딥러닝 프로젝트입니다.
+과거 카테고리 성과 데이터와 최근 반응 데이터를 함께 사용해 **앞으로 어떤 유튜브 숏폼 분야가 더 주목받을지**, 그리고 **개별 영상이 어느 정도 성장 가능성을 가질지**를 예측해보려 했던 딥러닝 프로젝트다.
 
-이 저장소는 결과만 정리한 보관소라기보다, **데이터가 어디서 틀어졌고 그 문제를 어떻게 고쳐 나갔는지까지 남겨두는 기록**에 가깝습니다.
+이 저장소는 단순히 결과 파일만 올려둔 곳이라기보다,  
+**어떤 문제를 풀려고 했고, 왜 기존 방식이 부족하다고 느꼈으며, 어떤 구조로 모델을 설계했는지**를 발표 자료 기준으로 다시 정리한 기록에 가깝다.
+
+> 최종 발표 자료: [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
 
 ## 한눈에 보기
 
-- **문제**: 어떤 유튜브 분야가 앞으로 더 올라갈까?
-- **최종 목표**: 핵심 10개 분야 안에서 **Top-5 상승 분야 선별**
-- **최종 모델**: `BiGRU` 기반 시계열 딥러닝 모델
-- **예측 기간**: 다음 4주
-- **예측 대상**: `게임`, `경제`, `교육`, `뉴스시사`, `먹방`, `반려동물`, `뷰티`, `브이로그`, `요리`, `운동`
+- **문제**: 어떤 유튜브 숏폼 분야가 앞으로 더 주목받을까?
+- **핵심 아이디어**: 개별 영상만 보지 않고, **카테고리 흐름 + 영상 메타데이터 + 초기 반응 시계열**을 함께 본다.
+- **예측 목표**
+  - 카테고리 단위: 미래 관심도와 상승 가능성
+  - 영상 단위: 초기 반응 기반 성장 가능성 보조 판단
+- **발표 기준 구조**
+  - 프로젝트 개요 및 목표
+  - 문제 정의 및 필요성
+  - 데이터 구성 및 분석
+  - 예측 모델 설계
+  - 핵심 파생변수 전략
+  - 기대 효과 및 향후 계획
 
-## 핵심 결과
+## 프로젝트 개요 및 목표
 
-- 분류 성능: Accuracy `0.767`, F1-score `0.829`, ROC AUC `0.845`
-- Top-5 선별 성능: Precision@5 `0.900`, NDCG@5 `0.881`
-- 최종 Top-5 상승 예측 분야: `반려동물`, `먹방`, `경제`, `브이로그`, `교육`
+이 프로젝트의 출발점은 단순하다.
 
-## 왜 이 프로젝트를 남겨두는가
+“이미 잘 나온 영상을 나중에 분석하는 것”보다,  
+**앞으로 어떤 분야가 더 올라올지를 먼저 예측할 수 없을까?**
 
-이 프로젝트에서 더 어려웠던 건 모델보다 데이터였다.
+그래서 최종 발표에서는 아래 세 가지를 핵심 목표로 잡았다.
 
-- Google Trends 수집이 안정적으로 되지 않았고
-- `%Y-%U`와 ISO week가 섞이면서 주차 축이 어긋났고
-- 전체 20개 분야를 한 번에 다루자 sparse category 때문에 성능이 흔들렸다
+1. **미래 분야 관심도 예측**
+   - 과거 카테고리별 성과 데이터를 바탕으로 시간에 따른 관심도 변화를 모델링한다.
+2. **영상 단위 보조 분석**
+   - 영상 메타데이터와 초기 시계열 반응을 결합해 영상 성장 가능성을 보조적으로 평가한다.
+3. **카테고리 맥락 반영**
+   - 영상 성과를 개별 영상만의 문제가 아니라, 해당 카테고리의 트렌드 맥락 속에서 해석한다.
 
-결국 핵심은 “더 복잡한 모델을 쓰는 것”보다 **문제를 다시 정의하고, 데이터 축을 바로잡고, 예측 가능한 범위로 줄이는 것**이었다.  
-이 저장소는 그 과정을 그대로 남겨두는 데 목적이 있다.
+## 문제 정의 및 필요성
 
-이 저장소에서 남기고 싶은 건 “성능이 얼마 나왔는가” 자체보다,  
-**문제 정의를 어떻게 바꿨는지, 데이터 오류를 어떻게 고쳤는지, 그리고 최종적으로 어떤 모델과 결과를 남겼는지**다.
+기존 virality 예측은 보통 개별 영상의 조회수, 좋아요, 댓글, 제목 정보에 더 집중하는 경우가 많다.  
+하지만 실제 영상 성과는 영상 자체만으로 결정되지 않고, **그 영상이 속한 카테고리 전체의 관심도 흐름**에도 영향을 받는다.
 
-## 대표 시각화
+그래서 이 프로젝트는 질문을 조금 바꿨다.
 
-### 1. 핵심 10개 분야 최근 추세
+- “어떤 영상이 잘 될까?”를 바로 묻기보다
+- **“앞으로 어떤 분야가 더 관심을 받을까?”를 먼저 예측하고**
+- 영상 반응은 그 위에서 보조적으로 활용하는 방식으로 접근했다.
 
-![핵심 10개 분야 최근 추세](./docs/assets/paper_eda_core10_recent_trends.png)
+## 데이터 구성 및 분석
 
-최근 2년 동안 분야별 반응 흐름이 비슷하게 움직이지 않았다는 점을 보여준다.  
-즉, 이 문제는 전체 평균보다 **카테고리별 시계열 패턴**을 따로 봐야 풀린다.
+발표 자료 기준으로 데이터는 세 축으로 정리된다.
 
-### 2. 최종 예측 결과 요약
+1. **과거 데이터**
+   - 카테고리별 영상 성과
+   - 조회수, 좋아요 등 장기 흐름과 기본 체력 반영
+2. **현재 데이터**
+   - 영상 메타데이터
+   - 제목, 태그, 업로드 시간 등 영상 특성 반영
+3. **시계열 데이터**
+   - 시간별 조회수 및 반응 변화
+   - 초기 반응 속도와 모멘텀 반영
 
-![최종 예측 결과](./docs/assets/paper_results_core10_prediction_rank_heatmap.png)
+핵심은 이 세 종류를 따로 두지 않고,  
+**카테고리 트렌드와 영상 반응을 함께 해석할 수 있는 구조로 묶는 것**이었다.
 
-최종 예측 결과는 단순 조회수 규모가 아니라, 최근 반응, 검색량, 순위 상승 신호를 함께 반영한 결과다.
+## 예측 모델 설계
 
-## 어디부터 읽으면 좋은가
+발표에서 설명한 최종 구조는 크게 네 단계다.
 
-- 프로젝트 흐름부터 보고 싶다면: [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
-- 실제로 어디서 문제가 났는지 보고 싶다면: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
-- 최종 모델 구조부터 보고 싶다면: [FINAL_MODEL.md](./FINAL_MODEL.md)
-- 최종 성능과 예측 결과부터 보고 싶다면: [RESULTS.md](./RESULTS.md)
-- 실행 순서가 궁금하다면: [RUN_PROJECT.md](./RUN_PROJECT.md)
-- 공개 저장소 기준 재현 범위가 궁금하다면: [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
+1. **데이터 입력**
+   - 과거 카테고리 성과 데이터
+   - 영상 메타데이터
+   - 초기 시계열 데이터
+2. **Category Trend Model**
+   - 카테고리별 과거 성과 흐름을 바탕으로 미래 관심도와 트렌드 변화를 예측
+3. **Video + Time-Series Model**
+   - 영상 메타데이터와 초기 반응(t1, t3, t6)을 활용해 영상별 성장 속도와 확산 가능성을 분석
+4. **Final Prediction**
+   - 카테고리 트렌드와 영상 반응을 결합해 최종 성장 가능성과 관심도 예측
+
+즉, 발표 기준 모델은 **카테고리 흐름을 먼저 읽고, 영상 반응을 그 위에 얹는 구조**로 설명할 수 있다.
+
+## 핵심 파생변수 전략
+
+발표 자료에서는 아래 네 가지 파생변수를 중심으로 설명했다.
+
+1. **Category Future Interest Score**
+   - 카테고리의 미래 관심도 예측 점수
+   - 과거 트렌드를 기반으로 앞으로 얼마나 주목받을지를 정량화
+2. **Category Momentum**
+   - 카테고리 상승/하락 속도 지표
+   - 최근 관심도 변화율을 반영해 트렌드의 상승세 여부를 측정
+3. **Early Interest Velocity**
+   - 영상 초기 반응 속도 지표
+   - t1, t3, t6 시점의 조회수 증가를 기반으로 초기 확산 속도를 정량화
+4. **Trend Alignment Score**
+   - 카테고리와 영상 간 정렬 정도
+   - 영상 반응이 해당 카테고리 트렌드와 얼마나 일치하는지 평가
+
+## 기대 효과 및 향후 계획
+
+발표에서 정리한 기대 효과는 네 가지다.
+
+1. **미래 카테고리 예측**
+   - 카테고리별 미래 관심도와 상승/하락 흐름을 사전에 파악
+   - 콘텐츠 기획 시 우선 분야 선택 지원
+2. **영상 반응 기반 성장 판단**
+   - 업로드 직후 반응 속도로 영상의 성장 가능성을 조기 판단
+   - 단순 조회수 예측을 넘어 트렌드 맥락까지 반영
+3. **콘텐츠 전략 의사결정 지원**
+   - 기획, 추천, 운영 의사결정에 활용 가능한 데이터 기반 결과 제공
+4. **모델 확장 및 성능 개선**
+   - t24, 7일, 14일 예측 확장
+   - 장기 성과 예측 모델로 발전 가능
+
+## 저장소 안의 추가 자료
+
+이 저장소에는 발표 자료 외에도, 프로젝트를 진행하면서 정리한 **추가 실험 자료와 구현 코드**가 함께 들어 있다.
+
+- [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md): 프로젝트 일대기
+- [TROUBLESHOOTING.md](./TROUBLESHOOTING.md): 데이터와 실험 과정에서 겪은 문제
+- [FINAL_MODEL.md](./FINAL_MODEL.md): 발표 구조와 저장소 안 구현 실험을 함께 정리한 모델 설명
+- [RESULTS.md](./RESULTS.md): 발표 바깥에서 남겨둔 추가 실험 결과 메모
+- [RUN_PROJECT.md](./RUN_PROJECT.md): 실행 안내
+- [REPRODUCIBILITY.md](./REPRODUCIBILITY.md): 재현 범위와 한계
+
+즉, 발표는 발표대로 정리하고,  
+저장소에는 **그 뒤에서 실제로 부딪혔던 실험 과정과 구현 흔적**도 같이 남겨두었다.
 
 ## 공개 저장소 구조
 
 ```text
 .
-├─ youtube_trend_project_pipeline.executed.ipynb   # 메인 프로젝트 노트북
-├─ train_active_category_rank_bigru.py             # 최종 BiGRU 학습 코드
-├─ run_core10_top_predictions.py                   # 최종 예측 재생성 코드
-├─ make_paper_visualization_suite.py               # 대표 시각화 생성 코드
-├─ plot_core10_prediction_results.py               # 예측 결과 시각화 코드
-├─ plot_core10_prediction_story.py                 # 예측 스토리 시각화 코드
-├─ README.md                                       # 저장소 첫 화면
-├─ PROJECT_JOURNEY.md                              # 프로젝트 일대기
-├─ TROUBLESHOOTING.md                              # 문제와 해결 과정
-├─ FINAL_MODEL.md                                  # 최종 모델 설명
-├─ RESULTS.md                                      # 최종 성능과 예측 결과
-├─ RUN_PROJECT.md                                  # 실행 안내
-├─ REPRODUCIBILITY.md                              # 재현 범위와 한계
-├─ requirements.txt                                # 공개용 기본 실행 패키지
-├─ docs/assets/                                    # 문서용 대표 이미지
-└─ project_ready_data/model_outputs/               # 공개 가능한 최종 결과 파일 일부
+├─ 딥러닝 발표 PPT.pdf                           # 최종 발표 PDF
+├─ youtube_trend_project_pipeline.executed.ipynb # 메인 프로젝트 노트북
+├─ train_active_category_rank_bigru.py           # 저장소에 남겨둔 최종 구현 실험 코드
+├─ run_core10_top_predictions.py                 # 추가 예측 재생성 코드
+├─ make_paper_visualization_suite.py             # 시각화 생성 코드
+├─ PROJECT_JOURNEY.md
+├─ TROUBLESHOOTING.md
+├─ FINAL_MODEL.md
+├─ RESULTS.md
+├─ RUN_PROJECT.md
+├─ REPRODUCIBILITY.md
+├─ requirements.txt
+└─ docs/assets/
 ```
 
-실제 로컬 작업 폴더에는 이보다 더 많은 보조 스크립트와 산출물이 있었지만,  
-공개 저장소에는 **프로젝트를 이해하는 데 필요한 핵심 파일만 선별해서 올렸다.**
+## 어디부터 보면 좋은가
 
-## 빠르게 시작하는 방법
+처음 보는 사람에게는 아래 순서를 추천한다.
 
-### 환경
+1. 이 `README.md`
+2. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
+3. [FINAL_MODEL.md](./FINAL_MODEL.md)
+4. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+5. [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 
-- Python 3.11+ 권장
-- Windows 환경 기준으로 정리
-- GPU가 있으면 빠르지만, 결과 확인 정도는 CPU로도 가능
-
-### 설치
+## 빠르게 실행하고 싶다면
 
 ```bash
 pip install -r requirements.txt
 ```
 
-처음 보는 사람에게 가장 추천하는 순서는 아래와 같다.
+그다음 아래 문서를 보는 편이 가장 안전하다.
 
-1. [RESULTS.md](./RESULTS.md)로 최종 결과 확인
-2. [FINAL_MODEL.md](./FINAL_MODEL.md)로 모델 구조 확인
-3. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)와 [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)로 일대기 확인
-4. [RUN_PROJECT.md](./RUN_PROJECT.md), [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)로 실행 범위 확인
-
-공개 저장소에는 대용량 산출물과 중간 결과가 대부분 빠져 있다.  
-실행 순서와 파일 의존성은 [RUN_PROJECT.md](./RUN_PROJECT.md)에,  
-공개 저장소에서 어디까지 재현 가능한지는 [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)에 따로 정리해두었다.
+- 실행 방법: [RUN_PROJECT.md](./RUN_PROJECT.md)
+- 재현 범위: [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
 
 ## 한 줄 요약
 
-이 프로젝트는 **유튜브 핵심 10개 분야의 향후 4주 상승 가능성을 예측하기 위해, 데이터 오류를 직접 고치고 문제를 다시 정의한 뒤 최종적으로 BiGRU 기반 Top-5 선별 모델까지 정리한 경험 기록형 딥러닝 프로젝트**다.
+이 저장소는 **유튜브 숏폼의 미래 관심도와 성장 가능성을 카테고리 트렌드와 초기 반응 데이터로 예측해보려 했던 딥러닝 프로젝트의 최종 발표 자료와 그 뒤의 실험 기록을 함께 남겨둔 저장소**다.
