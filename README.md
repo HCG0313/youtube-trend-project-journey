@@ -121,11 +121,22 @@
    - t24, 7일, 14일 예측 확장
    - 장기 성과 예측 모델로 발전 가능
 
+## 프로젝트 스토리
+
+이 저장소는 결과만 모아둔 폴더라기보다,  
+**어떤 질문에서 출발했고, 어디서 막혔고, 무엇을 고쳤고, 결국 무엇을 남겼는지**를 함께 기록한 프로젝트다.
+
+- 한국어 스토리: [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+- English story: [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
+
+두 문서는 같은 프로젝트를 설명하지만, 한국어 문서는 발표와 작업 맥락을 더 자세히 담고 있고, 영어 문서는 외부 사람이 저장소만 보고도 이해할 수 있도록 다시 서술했다.
+
 ## 저장소 안의 추가 자료
 
 이 저장소에는 발표 자료 외에도, 프로젝트를 진행하면서 정리한 **추가 실험 자료와 구현 코드**가 함께 들어 있다.
 
-- [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md): 프로젝트 일대기
+- [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md): 한국어 프로젝트 일대기
+- [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md): English project story
 - [TROUBLESHOOTING.md](./TROUBLESHOOTING.md): 데이터와 실험 과정에서 겪은 문제
 - [FINAL_MODEL.md](./FINAL_MODEL.md): 발표 구조와 저장소 안 구현 실험을 함께 정리한 모델 설명
 - [RESULTS.md](./RESULTS.md): 발표 바깥에서 남겨둔 추가 실험 결과 메모
@@ -145,6 +156,7 @@
 ├─ run_core10_top_predictions.py                 # 추가 예측 재생성 코드
 ├─ make_paper_visualization_suite.py             # 시각화 생성 코드
 ├─ PROJECT_JOURNEY.md
+├─ PROJECT_JOURNEY_EN.md
 ├─ TROUBLESHOOTING.md
 ├─ FINAL_MODEL.md
 ├─ RESULTS.md
@@ -160,9 +172,10 @@
 
 1. 이 `README.md`
 2. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
-3. [FINAL_MODEL.md](./FINAL_MODEL.md)
-4. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+3. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+4. [FINAL_MODEL.md](./FINAL_MODEL.md)
 5. [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+6. 외부 공유용이면 [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
 
 ## 빠르게 실행하고 싶다면
 
