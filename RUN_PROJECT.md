@@ -8,6 +8,7 @@
 
 이미 만들어진 결과와 문서를 읽는 방식이다.
 
+- 최종 발표 자료: `딥러닝 발표 PPT.pdf`
 - 메인 노트북: `youtube_trend_project_pipeline.executed.ipynb`
 - 최종 성능 문서: `RESULTS.md`
 - 최종 모델 설명: `FINAL_MODEL.md`
@@ -43,9 +44,11 @@ pip install -r requirements.txt
 ## 4. 가장 먼저 볼 파일
 
 1. `README.md`
-2. `youtube_trend_project_pipeline.executed.ipynb`
+2. `딥러닝 발표 PPT.pdf`
 3. `FINAL_MODEL.md`
-4. `RESULTS.md`
+4. `PROJECT_JOURNEY.md`
+5. `youtube_trend_project_pipeline.executed.ipynb`
+6. `RESULTS.md`
 
 ## 5. 최종 예측 결과 다시 만들기
 
@@ -78,7 +81,7 @@ python make_paper_visualization_suite.py
 - 처음에는 `core10`으로 시작하는 최종 결과 파일을 우선 보는 편이 덜 헷갈린다.
 - 공개 저장소에는 대용량 생성 결과가 모두 포함되지 않을 수 있다.
 - 따라서 문서 이해와 결과 확인은 저장소만으로 가능하지만, 전체 재생성은 로컬 산출물 유무에 따라 달라질 수 있다.
-- 재현보다 결과 이해가 목적이라면 `README.md → RESULTS.md → FINAL_MODEL.md → 메인 노트북` 순서로 보는 것이 가장 빠르다.
+- 재현보다 결과 이해가 목적이라면 `README.md → 딥러닝 발표 PPT.pdf → FINAL_MODEL.md → PROJECT_JOURNEY.md` 순서로 보는 것이 가장 빠르다.
 - 공개 저장소에서 가능한 범위와 불가능한 범위는 [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)에 정리해두었다.
 
 ## 8. 가장 안전한 읽는 순서
