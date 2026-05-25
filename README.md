@@ -12,6 +12,8 @@
 
 > 최종 발표 자료: [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
 
+> English readers can start with [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md) and [FINAL_MODEL.md](./FINAL_MODEL.md).
+
 ## 한눈에 보기
 
 - **문제**: 어떤 유튜브 숏폼 분야가 앞으로 더 주목받을까?
