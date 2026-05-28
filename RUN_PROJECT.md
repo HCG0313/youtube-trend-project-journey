@@ -9,6 +9,8 @@
 이미 만들어진 결과와 문서를 읽는 방식이다.
 
 - 최종 발표 자료: `딥러닝 발표 PPT.pdf`
+- 예상 질문 표: `QnA_Report.pdf`
+- 발표용 답변 가이드: `PRESENTATION_QNA.md`
 - 메인 노트북: `youtube_trend_project_pipeline.executed.ipynb`
 - 최종 성능 문서: `RESULTS.md`
 - 최종 모델 설명: `FINAL_MODEL.md`
@@ -45,10 +47,12 @@ pip install -r requirements.txt
 
 1. `README.md`
 2. `딥러닝 발표 PPT.pdf`
-3. `PROJECT_JOURNEY.md`
-4. `FINAL_MODEL.md`
-5. `youtube_trend_project_pipeline.executed.ipynb`
-6. `RESULTS.md`
+3. `QnA_Report.pdf`
+4. `PRESENTATION_QNA.md`
+5. `PROJECT_JOURNEY.md`
+6. `FINAL_MODEL.md`
+7. `youtube_trend_project_pipeline.executed.ipynb`
+8. `RESULTS.md`
 
 ## 5. 최종 예측 결과 다시 만들기
 
@@ -82,14 +86,18 @@ python make_paper_visualization_suite.py
 - 공개 저장소에는 대용량 생성 결과가 모두 포함되지 않을 수 있다.
 - 따라서 문서 이해와 결과 확인은 저장소만으로 가능하지만, 전체 재생성은 로컬 산출물 유무에 따라 달라질 수 있다.
 - 재현보다 결과 이해가 목적이라면 `README.md → 딥러닝 발표 PPT.pdf → PROJECT_JOURNEY.md → FINAL_MODEL.md` 순서로 보는 것이 가장 빠르다.
+- 발표 직전 질의응답 대비가 필요하다면 `QnA_Report.pdf → PRESENTATION_QNA.md`를 이어서 보는 편이 가장 빠르다.
 - 공개 저장소에서 가능한 범위와 불가능한 범위는 [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)에 정리해두었다.
 
 ## 8. 가장 안전한 읽는 순서
 
 1. `README.md`
-2. `PROJECT_JOURNEY.md`
-3. `TROUBLESHOOTING.md`
-4. `FINAL_MODEL.md`
-5. `RESULTS.md`
-6. `REPRODUCIBILITY.md`
-7. `youtube_trend_project_pipeline.executed.ipynb`
+2. `딥러닝 발표 PPT.pdf`
+3. `QnA_Report.pdf`
+4. `PRESENTATION_QNA.md`
+5. `PROJECT_JOURNEY.md`
+6. `TROUBLESHOOTING.md`
+7. `FINAL_MODEL.md`
+8. `RESULTS.md`
+9. `REPRODUCIBILITY.md`
+10. `youtube_trend_project_pipeline.executed.ipynb`
