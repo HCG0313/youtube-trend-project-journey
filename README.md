@@ -12,7 +12,11 @@
 
 > 최종 발표 자료: [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
 >
-> English readers can start with [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md) and [FINAL_MODEL.md](./FINAL_MODEL.md).
+> 예상 질문 표: [QnA_Report.pdf](./QnA_Report.pdf)
+>
+> 발표용 답변 가이드: [PRESENTATION_QNA.md](./PRESENTATION_QNA.md)
+>
+> English readers can start with [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md), [FINAL_MODEL.md](./FINAL_MODEL.md), and [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md).
 
 ## 한눈에 보기
 
@@ -161,10 +165,24 @@
 두 문서는 같은 프로젝트를 설명하지만,  
 한국어 문서는 발표와 작업 맥락을 더 자세히 담고 있고, 영어 문서는 외부 사람이 저장소만 보고도 이해할 수 있도록 다시 썼다.
 
+## 발표 Q&A 자료
+
+최종 발표 자료와 함께 질의응답 대비 자료도 같이 남겨두었다.
+
+- [QnA_Report.pdf](./QnA_Report.pdf): 최종 발표 기준 예상 질문 표
+- [PRESENTATION_QNA.md](./PRESENTATION_QNA.md): 코드와 최종 성능 수치를 대조해 다시 정리한 한국어 답변 가이드
+- [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md): 영어권 독자를 위한 짧은 FAQ 정리
+
+특히 `PRESENTATION_QNA.md`는 원본 표에 있던 표현을 그대로 옮기지 않고,  
+실제 최종 모델 설정과 실험 결과에 맞게 다시 다듬은 버전이다.
+
 ## 저장소 안의 추가 자료
 
 - [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md): 한국어 프로젝트 일대기
 - [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md): English project story
+- [QnA_Report.pdf](./QnA_Report.pdf): 최종 발표용 예상 질문 표
+- [PRESENTATION_QNA.md](./PRESENTATION_QNA.md): 발표용 답변 가이드
+- [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md): English FAQ
 - [TROUBLESHOOTING.md](./TROUBLESHOOTING.md): 데이터와 실험 과정에서 겪은 문제
 - [FINAL_MODEL.md](./FINAL_MODEL.md): BiGRU 기반 최종 모델 설명
 - [RESULTS.md](./RESULTS.md): 최종 성능과 예측 결과 정리
@@ -176,6 +194,7 @@
 ```text
 .
 ├─ 딥러닝 발표 PPT.pdf                           # 최종 발표 PDF
+├─ QnA_Report.pdf                                # 최종 발표용 예상 질문 표
 ├─ youtube_trend_project_pipeline.executed.ipynb # 메인 프로젝트 노트북
 ├─ train_active_category_rank_bigru.py           # 최종 BiGRU 학습 코드
 ├─ run_core10_top_predictions.py                 # 최종 Top-5 예측 재생성 코드
@@ -197,10 +216,12 @@
 
 1. 이 `README.md`
 2. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
-3. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
-4. [FINAL_MODEL.md](./FINAL_MODEL.md)
-5. [RESULTS.md](./RESULTS.md)
-6. 외부 공유용이면 [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
+3. [QnA_Report.pdf](./QnA_Report.pdf)
+4. [PRESENTATION_QNA.md](./PRESENTATION_QNA.md)
+5. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+6. [FINAL_MODEL.md](./FINAL_MODEL.md)
+7. [RESULTS.md](./RESULTS.md)
+8. 외부 공유용이면 [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
 
 ## 빠르게 실행하고 싶다면
 
