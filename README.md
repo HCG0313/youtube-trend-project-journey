@@ -25,6 +25,24 @@
 - **최종 모델**: RNN 계열의 표준 시계열 딥러닝 모델인 **BiGRU**
 - **최종 목표**: 단순 조회수 예측이 아니라 **Top-5 상승 분야 선별**
 
+## 발표 기준으로 먼저 보면 좋은 문서
+
+교수님 피드백 기준으로 가장 먼저 봐야 하는 문서는 아래 네 개다.
+
+1. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
+2. [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)
+3. [FINAL_MODEL.md](./FINAL_MODEL.md)
+4. [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md)
+
+즉, 이 저장소는 단순 결과 정리보다
+
+- **무엇을 예측했는지**
+- **왜 핵심 10개 분야로 좁혔는지**
+- **변수와 라벨이 어떻게 만들어졌는지**
+- **왜 이 평가지표를 썼는지**
+
+를 분명히 설명하는 방향으로 다시 정리되어 있다.
+
 ## 프로젝트 개요 및 목표
 
 이 프로젝트의 출발점은 단순했다.
@@ -77,6 +95,8 @@
 최종 학습 대상은 활동이 충분한 16개 분야였고,  
 발표와 최종 평가는 핵심 10개 분야를 기준으로 진행했다.
 
+핵심 10개 분야 선정 기준과 변수·라벨 설명은 [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)에 따로 정리했다.
+
 ## 예측 모델 설계
 
 발표에서 설명한 최종 구조는 크게 네 단계다.
@@ -96,6 +116,8 @@
 핵심은 “복잡한 딥러닝 모델을 쓰는 것”보다,  
 **카테고리 흐름을 먼저 읽고, 영상·시계열·외부 변수를 그 위에서 결합하는 구조**를 세우는 데 있었다.
 
+모델 구조와 `RNN → GRU → BiGRU` 흐름은 [FINAL_MODEL.md](./FINAL_MODEL.md)에서 더 자세히 볼 수 있다.
+
 ## 핵심 파생변수 전략
 
 발표 자료에서는 아래 변수들을 핵심으로 설명했다.
@@ -111,6 +133,21 @@
 
 즉, 이 프로젝트는 단순 규모 비교가 아니라  
 **최근 변화 방향과 상대적 상승 신호**를 수치화하는 방향으로 파생변수를 설계했다.
+
+대표 변수의 유형, 파생변수 계산식, `rise_label`과 `rank_up`의 정의는 [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)에 정리했다.
+
+## 꼭 추가한 데이터 파이프라인 코드
+
+이번에 공개 저장소에 꼭 필요하다고 판단한 전처리·파생변수 생성 코드를 따로 정리해 올려두었다.
+
+- [week_utils.py](./week_utils.py): ISO week 정렬과 주차 변환 함수
+- [build_category_trend_dataset.py](./build_category_trend_dataset.py): 원천 영상 데이터를 카테고리-주차 단위 추세 데이터로 집계하는 코드
+- [collect_google_trends_apify.py](./collect_google_trends_apify.py): Google Trends 주간 검색량을 다시 수집하는 코드
+- [merge_apify_google_trends_batches.py](./merge_apify_google_trends_batches.py): 여러 배치로 수집한 Google Trends 결과를 병합하고 정리하는 코드
+- [integrate_project_ready_data.py](./integrate_project_ready_data.py): 최종 학습용 테이블과 파생변수를 만드는 핵심 통합 코드
+- [DATA_PIPELINE_CODE_INDEX.md](./DATA_PIPELINE_CODE_INDEX.md): 위 코드들의 역할과 읽는 순서를 정리한 안내 문서
+
+즉, 지금 저장소에는 **주차 정렬 → 카테고리 주간 집계 → Google Trends 병합 → 최종 학습용 테이블 생성 → 모델 학습 및 예측**으로 이어지는 핵심 파이프라인이 모두 연결되도록 정리되어 있다.
 
 ## 최종 성능 및 예측 결과
 
@@ -142,6 +179,8 @@
 
 이 결과는 단순 조회수 크기가 아니라,  
 상승 확률, 순위 상승 확률, 최근 반응 추세, 검색 관심도, 상대 순위 신호를 함께 반영한 결과다.
+
+각 평가지표의 뜻과 왜 `Accuracy`와 `Precision@5`를 함께 보는지는 [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md)에 따로 정리했다.
 
 ## 이 프로젝트가 의미하는 것
 
@@ -184,7 +223,9 @@
 - [PRESENTATION_QNA.md](./PRESENTATION_QNA.md): 발표용 답변 가이드
 - [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md): English FAQ
 - [TROUBLESHOOTING.md](./TROUBLESHOOTING.md): 데이터와 실험 과정에서 겪은 문제
+- [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md): 변수 유형, 파생변수, 라벨 정의
 - [FINAL_MODEL.md](./FINAL_MODEL.md): BiGRU 기반 최종 모델 설명
+- [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md): 평가지표, Top-N, 결과 해석
 - [RESULTS.md](./RESULTS.md): 최종 성능과 예측 결과 정리
 - [RUN_PROJECT.md](./RUN_PROJECT.md): 실행 안내
 - [REPRODUCIBILITY.md](./REPRODUCIBILITY.md): 재현 범위와 한계
