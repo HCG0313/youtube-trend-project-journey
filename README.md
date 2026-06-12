@@ -19,12 +19,12 @@
 | 출력 | 상승 확률, 순위 상승 확률, 최종 Top-N 선별 |
 | 최종 Top-5 | 반려동물, 먹방, 경제, 브이로그, 교육 |
 
-## 이 저장소가 보여주는 것
+## 이 저장소가 증명하는 역량
 
 - 개별 영상 예측에서 카테고리 단위 상승 예측으로 문제를 다시 정의한 과정
 - 주차 불일치, Google Trends 병합, 범주 축소 같은 데이터 정합성 해결 과정
-- BiGRU 기반 시계열 모델로 Top-N 선별 문제를 푼 구조
-- 발표 자료, Q&A, 재현 문서까지 포함한 포트폴리오형 프로젝트 정리
+- BiGRU 기반 시계열 모델로 Top-N 선별 문제를 푼 구조 설계 능력
+- 발표 자료, Q&A, 재현 문서까지 포함해 결과를 설명 가능한 형태로 정리한 능력
 
 ## 바로 보기
 
@@ -36,17 +36,23 @@
 - 프로젝트 스토리: [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
 - 영어 문서 시작점: [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
 
+## 읽는 사람별 추천 동선
+
+- 처음 들어온 사람: `README → 발표 PPT → RESULTS`
+- 교수님이나 기술 검토자: `README → FINAL_MODEL → DATA_VARIABLE_GUIDE → EVALUATION_GUIDE`
+- 프로젝트 스토리가 궁금한 사람: `README → PROJECT_JOURNEY → TROUBLESHOOTING → PRESENTATION_QNA`
+
 ## 프로젝트 흐름
 
 ```mermaid
 flowchart LR
-    A[문제 인식<br/>무슨 영상이 뜨는가] --> B[문제 재정의<br/>어떤 분야가 앞으로 올라갈까]
-    B --> C[데이터 수집<br/>YouTube API + Google Trends + Calendar]
-    C --> D[전처리와 주차 정렬<br/>ISO week 통일과 category-week 생성]
-    D --> E[파생변수 생성<br/>momentum, rolling mean, competition, opportunity]
-    E --> F[BiGRU 학습<br/>최근 12주 흐름과 category embedding 반영]
-    F --> G[Top-5 예측<br/>상승 가능성이 높은 핵심 분야 선별]
-    G --> H[발표와 Q&A 정리<br/>결과 해석과 활용 시나리오 정리]
+    A["문제 인식<br/>무슨 영상이 뜨는가"] --> B["문제 재정의<br/>어떤 분야가 앞으로 올라갈까"]
+    B --> C["데이터 수집<br/>YouTube API + Google Trends + Calendar"]
+    C --> D["전처리와 주차 정렬<br/>ISO week 통일과 category-week 생성"]
+    D --> E["파생변수 생성<br/>momentum, rolling mean, competition, opportunity"]
+    E --> F["BiGRU 학습<br/>최근 12주 흐름과 category embedding 반영"]
+    F --> G["Top-5 예측<br/>상승 가능성이 높은 핵심 분야 선별"]
+    G --> H["발표와 Q&A 정리<br/>결과 해석과 활용 시나리오 정리"]
 ```
 
 ## 문제 정의
