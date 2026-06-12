@@ -5,171 +5,109 @@
 ![task](https://img.shields.io/badge/task-Top--N%20category%20forecast-C2A88D)
 ![scope](https://img.shields.io/badge/scope-core%2010%20categories-7DA39D)
 
-유튜브 분야별 과거 흐름, 최근 12주 시계열 반응, Google Trends 검색량, 캘린더 변수를 함께 활용해 **핵심 10개 분야 중 앞으로 4주 동안 상승 가능성이 높은 Top-5 분야를 예측**하려 한 딥러닝 프로젝트다.
+최근 12주 반응 시계열, Google Trends, 캘린더 변수를 함께 사용해 핵심 10개 유튜브 분야 중 다음 4주 동안 더 올라갈 가능성이 높은 Top-5 분야를 예측한 딥러닝 프로젝트입니다.
 
-이 저장소에는 최종 발표 자료뿐 아니라,  
-문제를 어떻게 다시 정의했는지, 데이터 정합성 문제를 어떻게 고쳤는지, 그리고 왜 최종적으로 BiGRU 기반 구조를 선택했는지까지 함께 정리해두었다.
+이 저장소는 결과만 올려 둔 공간이 아니라, 문제를 어떻게 다시 정의했는지, 데이터 정합성 문제를 어떻게 풀었는지, 왜 BiGRU를 선택했는지, 그리고 최종 발표와 Q&A까지 어떻게 정리했는지를 함께 남겨 둔 작업 기록입니다.
 
-> 최종 발표 자료: [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
->
-> 예상 질문 표: [QnA_Report.pdf](./QnA_Report.pdf)
->
-> 발표용 답변 가이드: [PRESENTATION_QNA.md](./PRESENTATION_QNA.md)
->
-> English readers can start with [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md), [FINAL_MODEL.md](./FINAL_MODEL.md), and [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md).
+## 30초 요약
 
-## 한눈에 보기
+| 항목 | 내용 |
+|---|---|
+| 목표 | 핵심 10개 유튜브 분야 중 향후 4주 상승 가능성이 높은 Top-5 분야 예측 |
+| 입력 | 최근 12주 카테고리 시계열, Google Trends, 캘린더 변수, category embedding |
+| 모델 | RNN 계열의 표준 시계열 딥러닝 모델인 BiGRU |
+| 출력 | 상승 확률, 순위 상승 확률, 최종 Top-N 선별 |
+| 최종 Top-5 | 반려동물, 먹방, 경제, 브이로그, 교육 |
 
-- **문제**: 유튜브 핵심 10개 분야 중 어떤 분야가 앞으로 4주 동안 더 상승할까?
-- **핵심 아이디어**: 개별 영상만 보지 않고, **카테고리 흐름 + 최근 12주 시계열 + 외부 변수**를 함께 본다.
-- **최종 모델**: RNN 계열의 표준 시계열 딥러닝 모델인 **BiGRU**
-- **최종 목표**: 단순 조회수 예측이 아니라 **Top-5 상승 분야 선별**
+## 이 저장소가 보여주는 것
 
-## 발표 기준으로 먼저 보면 좋은 문서
+- 개별 영상 예측에서 카테고리 단위 상승 예측으로 문제를 다시 정의한 과정
+- 주차 불일치, Google Trends 병합, 범주 축소 같은 데이터 정합성 해결 과정
+- BiGRU 기반 시계열 모델로 Top-N 선별 문제를 푼 구조
+- 발표 자료, Q&A, 재현 문서까지 포함한 포트폴리오형 프로젝트 정리
 
-교수님 피드백 기준으로 가장 먼저 봐야 하는 문서는 아래 네 개다.
+## 바로 보기
 
-1. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
-2. [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)
-3. [FINAL_MODEL.md](./FINAL_MODEL.md)
-4. [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md)
+- 발표 자료: [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
+- 예상 질문 표: [QnA_Report.pdf](./QnA_Report.pdf)
+- 발표용 답변 정리: [PRESENTATION_QNA.md](./PRESENTATION_QNA.md)
+- 모델 설명: [FINAL_MODEL.md](./FINAL_MODEL.md)
+- 결과 정리: [RESULTS.md](./RESULTS.md)
+- 프로젝트 스토리: [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+- 영어 문서 시작점: [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
 
-즉, 이 저장소는 단순 결과 정리보다
+## 프로젝트 흐름
 
-- **무엇을 예측했는지**
-- **왜 핵심 10개 분야로 좁혔는지**
-- **변수와 라벨이 어떻게 만들어졌는지**
-- **왜 이 평가지표를 썼는지**
+```mermaid
+flowchart LR
+    A[문제 인식<br/>무슨 영상이 뜨는가] --> B[문제 재정의<br/>어떤 분야가 앞으로 올라갈까]
+    B --> C[데이터 수집<br/>YouTube API + Google Trends + Calendar]
+    C --> D[전처리와 주차 정렬<br/>ISO week 통일과 category-week 생성]
+    D --> E[파생변수 생성<br/>momentum, rolling mean, competition, opportunity]
+    E --> F[BiGRU 학습<br/>최근 12주 흐름과 category embedding 반영]
+    F --> G[Top-5 예측<br/>상승 가능성이 높은 핵심 분야 선별]
+    G --> H[발표와 Q&A 정리<br/>결과 해석과 활용 시나리오 정리]
+```
 
-를 분명히 설명하는 방향으로 다시 정리되어 있다.
+## 문제 정의
 
-## 프로젝트 개요 및 목표
+처음에는 개별 영상의 virality를 맞히는 방향으로 접근했습니다. 하지만 실제로는 영상 하나의 초기 반응만으로 미래 관심 흐름을 설명하기 어렵다고 판단했고, 질문을 어떤 영상이 잘 될까에서 어떤 분야가 앞으로 더 주목받을까로 바꾸었습니다.
 
-이 프로젝트의 출발점은 단순했다.
+최종 문제 정의는 아래와 같습니다.
 
-“현재 조회수가 높은 분야”를 보는 것보다,  
-**앞으로 상승할 가능성이 높은 분야를 미리 파악할 수 없을까?**
+> 최근 12주간의 유튜브 반응 데이터, Google Trends, 캘린더 변수를 활용하여 핵심 10개 유튜브 분야 중 다음 4주 동안 상승 가능성이 높은 Top-5 분야를 예측한다.
 
-최종 발표에서는 아래 세 가지를 중심 목표로 정리했다.
+## 데이터와 변수
 
-1. **미래 상승 분야 예측**
-   - 과거 카테고리 흐름과 최근 시계열 반응을 결합해, 향후 4주 동안 상승 가능성이 높은 분야를 예측한다.
-2. **Top-N 선별 문제로 재정의**
-   - 모든 분야를 동일하게 맞히는 문제보다, 실제로 주목할 분야를 상위권으로 골라내는 문제에 집중했다.
-3. **카테고리 맥락 반영**
-   - 영상 반응을 개별 영상만의 문제가 아니라, 해당 카테고리의 흐름 안에서 해석한다.
+이 프로젝트는 세 종류의 데이터를 함께 사용했습니다.
 
-## 문제 정의 및 필요성
+- YouTube Data API 기반 영상 메타데이터와 반응 지표
+- 카테고리별 주간 추세 데이터
+- Google Trends와 공휴일, 연휴, 방학, 시험기간 같은 캘린더 변수
 
-기존 virality 예측은 보통 개별 영상의 조회수, 좋아요, 댓글, 제목 정보에 더 집중한다.  
-하지만 실제 영상 성과는 영상 자체만으로 결정되지 않고, **그 영상이 속한 카테고리 전체의 관심도 흐름**에도 크게 영향을 받는다.
+대표 파생변수는 `rolling_4week_mean`, `momentum_ratio`, `competition_score`, `opportunity_score`이며, 정답 라벨은 `rise_label`, `rank_up`으로 구성했습니다.
 
-그래서 이 프로젝트는 질문을 바꿨다.
+자세한 기준은 아래 문서에 정리했습니다.
 
-- “어떤 영상이 잘 될까?”를 바로 묻기보다
-- **“앞으로 어떤 분야가 더 관심을 받을까?”를 먼저 예측하고**
-- 영상 반응은 그 위에서 보조적으로 활용하는 방식으로 접근했다.
+- [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)
+- [DATA_PIPELINE_CODE_INDEX.md](./DATA_PIPELINE_CODE_INDEX.md)
 
-## 데이터 구성 및 분석
+## 모델과 선택 이유
 
-발표 자료 기준으로 데이터는 세 흐름으로 정리된다.
+최종 모델은 RNN 계열에서 GRU를 양방향으로 확장한 BiGRU입니다. 최근 12주처럼 길지 않은 시계열 안에서 상승, 둔화, 회복 흐름을 함께 읽는 것이 중요했기 때문에, 비교적 가볍고 시계열 문맥을 안정적으로 학습할 수 있는 구조가 필요했습니다.
 
-1. **YouTube Data API 기반 영상 데이터**
-   - 제목, 채널, 업로드 시점, 태그, 카테고리
-   - 조회수, 좋아요, 댓글 등 반응 지표
-2. **과거 카테고리 추세 데이터**
-   - 2020~2025년 주차별 분야 흐름
-   - 장기적인 변화 패턴 반영
-3. **최근 시계열 및 외부 변수 데이터**
-   - 최근 12주 카테고리 반응 추세
-   - Google Trends 검색량
-   - 공휴일, 연휴, 방학, 시험기간 등 캘린더 변수
+모델은 다음 순서로 작동합니다.
 
-최종 데이터 규모는 다음과 같다.
+1. 카테고리별 최근 12주 시계열과 외부 변수를 입력으로 받습니다.
+2. category embedding으로 분야별 고유 특성을 함께 반영합니다.
+3. BiGRU가 최근 흐름의 방향성을 학습합니다.
+4. 상승 확률과 순위 상승 확률을 함께 산출해 최종 Top-N을 선별합니다.
 
-- 전체 통합 영상: 18,958개
-- 중복 제거 영상: 16,641개
-- 주간 추세 데이터: 1,711행
-- 시계열 지원 데이터: 5,770행
+모델 구조 설명은 [FINAL_MODEL.md](./FINAL_MODEL.md)에 정리했습니다.
 
-최종 학습 대상은 활동이 충분한 16개 분야였고,  
-발표와 최종 평가는 핵심 10개 분야를 기준으로 진행했다.
-
-핵심 10개 분야 선정 기준과 변수·라벨 설명은 [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)에 따로 정리했다.
-
-## 예측 모델 설계
-
-발표에서 설명한 최종 구조는 크게 네 단계다.
-
-1. **데이터 입력**
-   - 과거 카테고리 성과 데이터
-   - 최근 12주 카테고리 반응 추세
-   - Google Trends 및 캘린더 변수
-2. **Category Trend Model**
-   - 카테고리별 과거 흐름과 최근 모멘텀을 읽는다.
-3. **BiGRU 기반 시계열 모델**
-   - RNN → GRU → BiGRU 흐름 위에서 최근 12주 패턴을 양방향으로 학습한다.
-   - category embedding을 함께 사용해 분야별 고유 특성을 반영한다.
-4. **Final Prediction**
-   - 상승 확률과 순위 상승 확률을 함께 산출하고, 이를 바탕으로 최종 Top-N을 선별한다.
-
-핵심은 “복잡한 딥러닝 모델을 쓰는 것”보다,  
-**카테고리 흐름을 먼저 읽고, 영상·시계열·외부 변수를 그 위에서 결합하는 구조**를 세우는 데 있었다.
-
-모델 구조와 `RNN → GRU → BiGRU` 흐름은 [FINAL_MODEL.md](./FINAL_MODEL.md)에서 더 자세히 볼 수 있다.
-
-## 핵심 파생변수 전략
-
-발표 자료에서는 아래 변수들을 핵심으로 설명했다.
-
-- **avg_virality**: 현재 반응 규모
-- **engagement_rate**: 참여도 지표
-- **rolling_4week_mean**: 최근 4주 평균 반응 수준
-- **momentum_ratio**: 최근 반응 가속도
-- **competition_score**: 분야 내 경쟁 강도
-- **opportunity_score**: 상승 가능성 지표
-- **rise_label**: 향후 4주 상승 여부
-- **rank_up**: 향후 순위 상승 여부
-
-즉, 이 프로젝트는 단순 규모 비교가 아니라  
-**최근 변화 방향과 상대적 상승 신호**를 수치화하는 방향으로 파생변수를 설계했다.
-
-대표 변수의 유형, 파생변수 계산식, `rise_label`과 `rank_up`의 정의는 [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md)에 정리했다.
-
-## 꼭 추가한 데이터 파이프라인 코드
-
-이번에 공개 저장소에 꼭 필요하다고 판단한 전처리·파생변수 생성 코드를 따로 정리해 올려두었다.
-
-- [week_utils.py](./week_utils.py): ISO week 정렬과 주차 변환 함수
-- [build_category_trend_dataset.py](./build_category_trend_dataset.py): 원천 영상 데이터를 카테고리-주차 단위 추세 데이터로 집계하는 코드
-- [collect_google_trends_apify.py](./collect_google_trends_apify.py): Google Trends 주간 검색량을 다시 수집하는 코드
-- [merge_apify_google_trends_batches.py](./merge_apify_google_trends_batches.py): 여러 배치로 수집한 Google Trends 결과를 병합하고 정리하는 코드
-- [integrate_project_ready_data.py](./integrate_project_ready_data.py): 최종 학습용 테이블과 파생변수를 만드는 핵심 통합 코드
-- [DATA_PIPELINE_CODE_INDEX.md](./DATA_PIPELINE_CODE_INDEX.md): 위 코드들의 역할과 읽는 순서를 정리한 안내 문서
-
-즉, 지금 저장소에는 **주차 정렬 → 카테고리 주간 집계 → Google Trends 병합 → 최종 학습용 테이블 생성 → 모델 학습 및 예측**으로 이어지는 핵심 파이프라인이 모두 연결되도록 정리되어 있다.
-
-## 최종 성능 및 예측 결과
-
-핵심 10개 분야 기준 최종 BiGRU 모델 성능은 아래와 같다.
+## 핵심 결과
 
 ### 분류 성능
 
-- Accuracy: `0.767`
-- Balanced Accuracy: `0.798`
-- Precision: `0.944`
-- Recall: `0.739`
-- F1-score: `0.829`
-- ROC AUC: `0.845`
+| Metric | Score |
+|---|---:|
+| Accuracy | 0.767 |
+| Balanced Accuracy | 0.798 |
+| Precision | 0.944 |
+| Recall | 0.739 |
+| F1-score | 0.829 |
+| ROC AUC | 0.845 |
 
 ### Top-5 선별 성능
 
-- Precision@5: `0.900`
-- Recall@5: `0.801`
-- HitRate@5: `1.000`
-- NDCG@5: `0.881`
+| Metric | Score |
+|---|---:|
+| Precision@5 | 0.900 |
+| Recall@5 | 0.801 |
+| HitRate@5 | 1.000 |
+| NDCG@5 | 0.881 |
 
-### 최종 Top-5 상승 예측 분야
+### 최종 Top-5 예측 분야
 
 1. 반려동물
 2. 먹방
@@ -177,104 +115,57 @@
 4. 브이로그
 5. 교육
 
-이 결과는 단순 조회수 크기가 아니라,  
-상승 확률, 순위 상승 확률, 최근 반응 추세, 검색 관심도, 상대 순위 신호를 함께 반영한 결과다.
+여기서 중요한 점은 이 결과가 지금 가장 큰 분야를 그대로 고른 것이 아니라, 최근 반응 흐름과 검색 관심도, 상대 순위 변화를 함께 반영해 앞으로 더 올라갈 가능성이 있는 분야를 선별한 결과라는 점입니다.
 
-각 평가지표의 뜻과 왜 `Accuracy`와 `Precision@5`를 함께 보는지는 [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md)에 따로 정리했다.
+결과 해석은 [RESULTS.md](./RESULTS.md), 지표 의미는 [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md)에서 볼 수 있습니다.
 
-## 이 프로젝트가 의미하는 것
+## 이번 프로젝트에서 어려웠던 점
 
-이 프로젝트가 남기는 중요한 결론은 단순하다.
+- `year_week` 기준이 파일마다 달라 ISO week로 다시 맞춰야 했습니다.
+- Google Trends 수집 결과를 바로 모델에 넣기 어려워 별도 정리 파이프라인이 필요했습니다.
+- 모든 분야를 한 번에 다루면 분포가 불안정해 활동량과 연속성이 충분한 핵심 10개 분야로 문제를 다시 정의했습니다.
 
-- 유튜브 분야의 상승 가능성은 **단순 규모만으로 설명되지 않는다**
-- 장기 흐름, 최근 반응 속도, 외부 관심도, 캘린더 요인을 함께 봐야 한다
-- 딥러닝 모델 자체보다 **문제를 어떻게 재정의하고 데이터를 어떻게 맞췄는지**가 성능과 해석에 큰 영향을 준다
+이 과정을 더 자세히 적어 둔 문서는 [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)와 [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)입니다.
 
-즉, 이 저장소는 “모델 하나를 돌려본 결과”보다  
-**상승 분야 예측 문제를 실제로 설계하고, 정리하고, 구현해 본 과정**을 남긴 기록에 더 가깝다.
+## 문서 읽는 순서
 
-## 프로젝트 스토리
+1. [README.md](./README.md)
+2. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
+3. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
+4. [FINAL_MODEL.md](./FINAL_MODEL.md)
+5. [RESULTS.md](./RESULTS.md)
+6. [PRESENTATION_QNA.md](./PRESENTATION_QNA.md)
 
-이 저장소는 결과만 정리한 곳이 아니라,  
-**어떤 질문에서 출발했고, 어디서 막혔고, 무엇을 고쳤고, 결국 무엇을 남겼는지**를 함께 기록한 프로젝트다.
-
-- 한국어 스토리: [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
-- English story: [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
-
-두 문서는 같은 프로젝트를 설명하지만,  
-한국어 문서는 발표와 작업 맥락을 더 자세히 담고 있고, 영어 문서는 외부 사람이 저장소만 보고도 이해할 수 있도록 다시 썼다.
-
-## 발표 Q&A 자료
-
-최종 발표 자료와 함께 질의응답 대비 자료도 같이 남겨두었다.
-
-- [QnA_Report.pdf](./QnA_Report.pdf): 최종 발표 기준 예상 질문 표
-- [PRESENTATION_QNA.md](./PRESENTATION_QNA.md): 코드와 최종 성능 수치를 대조해 다시 정리한 한국어 답변 가이드
-- [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md): 영어권 독자를 위한 짧은 FAQ 정리
-
-특히 `PRESENTATION_QNA.md`는 원본 표에 있던 표현을 그대로 옮기지 않고,  
-실제 최종 모델 설정과 실험 결과에 맞게 다시 다듬은 버전이다.
-
-## 저장소 안의 추가 자료
-
-- [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md): 한국어 프로젝트 일대기
-- [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md): English project story
-- [QnA_Report.pdf](./QnA_Report.pdf): 최종 발표용 예상 질문 표
-- [PRESENTATION_QNA.md](./PRESENTATION_QNA.md): 발표용 답변 가이드
-- [PRESENTATION_QNA_EN.md](./PRESENTATION_QNA_EN.md): English FAQ
-- [TROUBLESHOOTING.md](./TROUBLESHOOTING.md): 데이터와 실험 과정에서 겪은 문제
-- [DATA_VARIABLE_GUIDE.md](./DATA_VARIABLE_GUIDE.md): 변수 유형, 파생변수, 라벨 정의
-- [FINAL_MODEL.md](./FINAL_MODEL.md): BiGRU 기반 최종 모델 설명
-- [EVALUATION_GUIDE.md](./EVALUATION_GUIDE.md): 평가지표, Top-N, 결과 해석
-- [RESULTS.md](./RESULTS.md): 최종 성능과 예측 결과 정리
-- [RUN_PROJECT.md](./RUN_PROJECT.md): 실행 안내
-- [REPRODUCIBILITY.md](./REPRODUCIBILITY.md): 재현 범위와 한계
-
-## 공개 저장소 구조
+## 저장소 안 핵심 파일
 
 ```text
 .
-├─ 딥러닝 발표 PPT.pdf                           # 최종 발표 PDF
-├─ QnA_Report.pdf                                # 최종 발표용 예상 질문 표
-├─ youtube_trend_project_pipeline.executed.ipynb # 메인 프로젝트 노트북
-├─ train_active_category_rank_bigru.py           # 최종 BiGRU 학습 코드
-├─ run_core10_top_predictions.py                 # 최종 Top-5 예측 재생성 코드
-├─ make_paper_visualization_suite.py             # 논문형 시각화 생성 코드
+├─ 딥러닝 발표 PPT.pdf
+├─ QnA_Report.pdf
+├─ youtube_trend_project_pipeline.executed.ipynb
+├─ train_active_category_rank_bigru.py
+├─ run_core10_top_predictions.py
+├─ make_paper_visualization_suite.py
 ├─ PROJECT_JOURNEY.md
-├─ PROJECT_JOURNEY_EN.md
-├─ TROUBLESHOOTING.md
 ├─ FINAL_MODEL.md
 ├─ RESULTS.md
-├─ RUN_PROJECT.md
-├─ REPRODUCIBILITY.md
-├─ requirements.txt
+├─ PRESENTATION_QNA.md
+├─ DATA_VARIABLE_GUIDE.md
+├─ EVALUATION_GUIDE.md
 └─ docs/assets/
 ```
 
-## 어디부터 보면 좋은가
-
-처음 보는 사람에게는 아래 순서를 추천한다.
-
-1. 이 `README.md`
-2. [딥러닝 발표 PPT.pdf](./딥러닝%20발표%20PPT.pdf)
-3. [QnA_Report.pdf](./QnA_Report.pdf)
-4. [PRESENTATION_QNA.md](./PRESENTATION_QNA.md)
-5. [PROJECT_JOURNEY.md](./PROJECT_JOURNEY.md)
-6. [FINAL_MODEL.md](./FINAL_MODEL.md)
-7. [RESULTS.md](./RESULTS.md)
-8. 외부 공유용이면 [PROJECT_JOURNEY_EN.md](./PROJECT_JOURNEY_EN.md)
-
-## 빠르게 실행하고 싶다면
+## 실행과 재현
 
 ```bash
 pip install -r requirements.txt
 ```
 
-그다음 아래 문서를 보는 편이 가장 안전하다.
+실행 순서와 재현 범위는 아래 문서를 참고하면 됩니다.
 
-- 실행 방법: [RUN_PROJECT.md](./RUN_PROJECT.md)
-- 재현 범위: [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
+- [RUN_PROJECT.md](./RUN_PROJECT.md)
+- [REPRODUCIBILITY.md](./REPRODUCIBILITY.md)
 
-## 한 줄 요약
+## 한 줄 정리
 
-이 저장소는 **유튜브 핵심 10개 분야의 향후 4주 상승 가능성을 최근 12주 시계열, 외부 변수, BiGRU 기반 딥러닝 모델로 예측해본 프로젝트의 최종 발표 자료와 그 뒤의 실험 기록을 함께 남겨둔 저장소**다.
+이 저장소는 유튜브 핵심 10개 분야의 향후 4주 상승 가능성을 최근 12주 시계열과 외부 변수, BiGRU 기반 딥러닝 모델로 예측하고, 그 과정을 발표 자료와 Q&A까지 포함해 정리한 프로젝트 기록입니다.
